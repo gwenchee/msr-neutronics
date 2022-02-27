@@ -101,7 +101,7 @@ class create_deck:
         self.apply_reproc(False)
         mflows_rep = self.apply_reproc(self.repr)
         rc_flows = self.flow_regime(self.repr)
-        time_vals = misc_funcs.convert_list_to_string(self.step_list)
+        time_vals = misc_funcs.convert_list_to_string(self.step_list, separator=', ')
 
         deck = template.render(
             fuel_path=self.base,
@@ -384,7 +384,7 @@ if __name__ == '__main__':
     base_material_file = './ss-data-test/ss-fuel_1380'
     template_name = 'saltproc.msbr.serpent'
     template_path = './templates'
-    time_step = [3]
+    time_step = [3, 3]
     list_inventory = ['Xe135']
     identifier = 'test'
     deck_name = 'zzzzz'

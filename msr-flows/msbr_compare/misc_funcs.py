@@ -26,7 +26,7 @@ def list_to_print(options):
     return selection
 
 
-def convert_list_to_string(input_list):
+def convert_list_to_string(input_list, separator='\n'):
     """
     Converts a list to a string with each value separated with a new paragraph
 
@@ -34,6 +34,8 @@ def convert_list_to_string(input_list):
     ----------
     input_list : list
         List of values
+    separator : str
+        Term to separate each value in list
 
     Returns
     -------
@@ -42,10 +44,10 @@ def convert_list_to_string(input_list):
 
     """
     output = ''
-    for each in input_list:
-        output += """
-{each}
-""".format(**locals())
+    for index, each in enumerate(input_list):
+        if index == len(input_list) - 1:
+            separator = ''
+        output += """{each}{separator}""".format(**locals())
     return output
 
 
