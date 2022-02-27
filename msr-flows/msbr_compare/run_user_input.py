@@ -21,11 +21,11 @@ class full_run_serp:
             base_material_path,
             template_path,
             template_name,
-            start_time,
-            end_time,
+            time_steps,
             list_inventory,
             element_flow_list,
-            output_path):
+            output_path,
+            batch_frequency=0):
         """
         Initialize.
 
@@ -40,10 +40,8 @@ class full_run_serp:
             Path to template.
         template_name : str
             Name of template.
-        start_time : float
-            Time in days at which to begin.
-        end_time : float
-            Time in days at which to end (limit 6000).
+        time_steps : list
+            List of times [days] to evaluate.
         list_inventory : list
             List of strings containing extra isotopes/elements
                     to track (i.e. ['Xe135']).
@@ -52,6 +50,8 @@ class full_run_serp:
                     (i.e. ['krypton', 'xenon']).
         output_path : str
             Path to a directory containing decks and outputs
+        batch_frequqncy : int
+            Number of steps to wait until generating fresh input deck
 
 
 
@@ -63,13 +63,17 @@ class full_run_serp:
         self.mat_path = base_material_path
         self.template_path = template_path
         self.template_name = template_name
-        self.start_day = start_time
-        self.end_day = end_time
+        #self.start_day = start_time
+        #self.end_day = end_time
         self.inv_list = list_inventory
         self.element_flow_list = element_flow_list
         self.output_path = output_path
 
-        self.step_size = (end_time - start_time) / number_serp_steps
+        #self.step_size = (end_time - start_time) / number_serp_steps
+        self.step_list = time_steps
+        self.start_day = self.step_list[0]
+        self.end_day = self.step_list[-1]
+        self.batch_f = batch_frequency
         self.base_mat_file = f'{self.mat_path}{self.start_day}'
 
         return
@@ -81,7 +85,10 @@ class full_run_serp:
         reprocessing_dict = False
         read_file = False
         read_time = 0
-        for each_step in range(self.N):
+        time_list = list()
+        batch_counter = 0
+        for each_step, step_val in self.step_list:
+            time_list.append(step_val)
             write_file = self.output_path + \
                 identifier + str(each_step) + '.wrk'
             deck_name = self.output_path + identifier + str(each_step)

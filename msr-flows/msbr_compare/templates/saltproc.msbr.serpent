@@ -147,6 +147,6 @@ rep flowprocess
 
 dep
 pro flowprocess
-daystep
+daytot
 
 {{time_vals}}

@@ -30,7 +30,7 @@ cumulative_keff_plotting = True
 tot_mass_plotting = False
 
 # Batchwise changes / Alterations to continuous rates frequency
-# 0 means every step, 1 every other step, False means never (all one Serpent input deck)
+# 0 means every step, 1 every other step, etc.
 batch_step_counter = 0
 
 
