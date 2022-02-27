@@ -73,7 +73,6 @@ class full_run_serp:
 
         #self.step_size = (end_time - start_time) / number_serp_steps
         self.step_list = time_steps
-        input(self.step_list)
         self.end_day = self.step_list[-1] + self.start_day
         self.batch_f = batch_frequency
         self.base_mat_file = f'{self.mat_path}{self.start_day}'
@@ -90,14 +89,17 @@ class full_run_serp:
         time_list = list()
         batch_counter = 0
         file_counter = 0
-        for each_step, step_val in self.step_list:
+        for each_step, step_val in enumerate(self.step_list):
             time_list.append(step_val)
             write_file = self.output_path + \
-                identifier + str(each_step) + '.wrk'
+                identifier + str(file_counter) + '.wrk'
             deck_name = self.output_path + identifier + str(file_counter)
             current_actual_time = step_val + self.start_day
             current_serpent_time = step_val
-            read_time = current_serpent_time
+            if each_step > 0:
+                read_time = self.step_list[each_step - 1]
+            else:
+                read_time = current_serpent_time
             if batch_counter >= self.batch_f:
                 cur_deck_maker = serpent_input.create_deck(
                     reprocessing_dict,
@@ -477,12 +479,10 @@ if __name__ == '__main__':
     for N_index, N_steps in enumerate(ui.number_serp_steps_list):
 
         time_steps = misc_funcs.step_calc(ui.start_time, ui.end_time, N_steps, method=ui.step_size_calc_method) 
-        input((time_steps, len(time_steps)))
 
 
         output_path = str(base_output_path) + f'{N_steps}/'
         misc_funcs.set_directory(output_path)
-        print(f'Step size: {(ui.end_time - ui.start_time) / N_steps}')
 
         if ui.control:
             start_timer_count = time.time()

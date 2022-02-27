@@ -31,7 +31,7 @@ tot_mass_plotting = False
 
 # Frequency to generate new input deck file
 # 0 means every step, 1 every other step, etc.
-batch_frequency = 0
+batch_frequency = 1
 
 
 lines = ['-', '--', '-.', ':']
