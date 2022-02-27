@@ -11,7 +11,7 @@ class plotting_tools:
 
     """
 
-    def __init__(self, output_path, identifier, target, num_steps, mat_name='fuel'):
+    def __init__(self, output_path, identifier, target, time_steps, mat_name='fuel'):
         """
         Initialize the plotting tools class.
 
@@ -24,8 +24,8 @@ class plotting_tools:
         target : str
             Name of isotope or element to collect data for
                 (i.e. Xe-135 or xenon)
-        num_steps : int
-            Number of steps that Serpent2 is run for
+        time_steps : list
+            List of steps that Serpent2 is run for
         mat_name : str (optional)
             Name of the material to pull data from
 
@@ -38,7 +38,7 @@ class plotting_tools:
         self.path = output_path + identifier
         self.target = target
         self.mat = mat_name
-        self.steps = num_steps
+        self.steps = time_steps
 
         return
 
@@ -62,13 +62,16 @@ class plotting_tools:
         time_data = list()
         mass_data = list()
         for each_step in range(self.steps):
-            plot_tool = serpent_output.serpent_data(
-                file_name=self.path + str(each_step), material_name=self.mat)
-            time, mass = plot_tool.serp_targ_reader(self.target)
-            actual_time = time + ui.start_time
-            for each_ind in range(len(actual_time)):
-                time_data.append(actual_time[each_ind])
-                mass_data.append(mass[each_ind])
+            try:
+                plot_tool = serpent_output.serpent_data(
+                    file_name=self.path + str(each_step), material_name=self.mat)
+                time, mass = plot_tool.serp_targ_reader(self.target)
+                actual_time = time + ui.start_time
+                for each_ind in range(len(actual_time)):
+                    time_data.append(actual_time[each_ind])
+                    mass_data.append(mass[each_ind])
+            except OSError as e:
+                break
         return time_data, mass_data
 
     def keff_plot(self):
@@ -94,17 +97,19 @@ class plotting_tools:
         keff_data = list()
         err_data = list()
         for each_step in range(self.steps):
-            results_file = self.path + str(each_step) + '_res.m'
-            results = st.read(results_file, reader='results')
-            time = results.resdata['burnDays'][:, 0]
-            keff = results.resdata['absKeff'][:, 0]
-            err = results.resdata['absKeff'][:, 1]
-            actual_time = time + ui.start_time
-            for each_ind in range(len(actual_time)):
-                time_data.append(actual_time[each_ind])
-                keff_data.append(keff[each_ind])
-                err_data.append(err[each_ind])
-
+            try:
+                results_file = self.path + str(each_step) + '_res.m'
+                results = st.read(results_file, reader='results')
+                time = results.resdata['burnDays'][:, 0]
+                keff = results.resdata['absKeff'][:, 0]
+                err = results.resdata['absKeff'][:, 1]
+                actual_time = time + ui.start_time
+                for each_ind in range(len(actual_time)):
+                    time_data.append(actual_time[each_ind])
+                    keff_data.append(keff[each_ind])
+                    err_data.append(err[each_ind])
+            except OSError as e:
+                break
         return time_data, keff_data, err_data
 
 if __name__ == '__main__':

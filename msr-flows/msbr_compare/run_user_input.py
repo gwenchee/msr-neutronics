@@ -96,11 +96,8 @@ class full_run_serp:
             deck_name = self.output_path + identifier + str(file_counter)
             current_actual_time = step_val + self.start_day
             current_serpent_time = step_val
-            if each_step > 0:
-                read_time = self.step_list[each_step - 1]
-            else:
-                read_time = current_serpent_time
             if batch_counter >= self.batch_f:
+                print(read_time)
                 cur_deck_maker = serpent_input.create_deck(
                     reprocessing_dict,
                     read_file,
@@ -695,7 +692,7 @@ if __name__ == '__main__':
             target = 'total'
             line_counter = 0
             for identifier in active_identifiers:
-                cur_time, cur_mass = serpent_plotting.plotting_tools(output_path, identifier, target, N_steps).plt_gen_mass_time()
+                cur_time, cur_mass = serpent_plotting.plotting_tools(output_path, identifier, target, time_steps).plt_gen_mass_time()
                 plt.plot(cur_time, cur_mass, linestyle=ui.lines[line_counter%len(ui.lines)], label=identifier, alpha=ui.overlap, lw=ui.width)
                 plt.xlabel('Time [d]')
                 plt.ylabel('Net Mass [g]')

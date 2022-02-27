@@ -49,7 +49,7 @@ template_name = 'saltproc.msbr.serpent'
 database = './ss-data-test/7002_day_SS_data'
 
 
-number_serp_steps_list = [2]#[1, 10, 50, 100, 200, 1000]#[1, 10, 50] #[1, 10, 50, 100, 200]
+number_serp_steps_list = [10]#[1, 10, 50, 100, 200, 1000]#[1, 10, 50] #[1, 10, 50, 100, 200]
 start_time = 3000#3
 end_time = 3006#6000#7002
 SP_step_size = 3
