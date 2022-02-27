@@ -4,6 +4,33 @@ import time
 import numpy as np
 
 
+
+def step_calc(start, end, steps, method='default'):
+    """
+    Generates the list of times for Serpent2 depletion
+
+    Parameters
+    ----------
+    start : float
+        Initial time
+    end : float
+        Final time
+    steps : int
+        Number of steps to span between start and end
+    method : str
+        Name of the method to use.
+
+    Returns
+    -------
+    time_list : list
+        List of time values to plug into Serpent
+
+    """
+    if method == 'default':
+        step_size = (end - start) / (steps)
+        time_list = list(np.arange(start, end+step_size, step_size)-start)[1:]
+    return time_list
+
 def list_to_print(options):
     """
     Creates a user-friendly output based on a list of strings provided

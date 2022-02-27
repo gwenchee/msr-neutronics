@@ -29,9 +29,9 @@ cumulative_keff_plotting = True
 # To make always usable, have Serpent run an extra time with "fuel all" inventory
 tot_mass_plotting = False
 
-# Batchwise changes / Alterations to continuous rates frequency
+# Frequency to generate new input deck file
 # 0 means every step, 1 every other step, etc.
-batch_step_counter = 0
+batch_frequency = 0
 
 
 lines = ['-', '--', '-.', ':']
@@ -55,6 +55,8 @@ end_time = 3006#6000#7002
 SP_step_size = 3
 SP_start = start_time #0
 SP_end = end_time #6000
+
+step_size_calc_method = 'default'
 
 LGA_step_size = 3
 linear_SP_count = 2
