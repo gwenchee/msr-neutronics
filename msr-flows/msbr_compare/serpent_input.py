@@ -50,8 +50,8 @@ class create_deck:
             File name of template used in generation of input deck
         template_path : str
             Path of template used in generation of input deck
-        step_days : float
-            Time step in days to be used
+        step_days : list
+            Time steps in days to be used
         list_inventory : list
             List of strings, isotopes desired for results
         identifier : str
@@ -71,7 +71,7 @@ class create_deck:
         self.read_time = read_time
         self.template_name = template_name
         self.template_path = template_path
-        self.step = step_days
+        self.step_list = step_days
         self.inv_list = list_inventory
         self.name = deck_name
         self.id = identifier
@@ -84,8 +84,7 @@ class create_deck:
 
         Parameters
         ----------
-        self : object
-            Class object
+        None
 
         Returns
         -------
@@ -98,11 +97,11 @@ class create_deck:
 
         inventory = misc_funcs.convert_list_to_string(self.inv_list)
         read_write = self.deck_read_write_generator(
-            self.step, self.read, self.read_time, self.write)
+            self.read, self.read_time, self.write)
         self.apply_reproc(False)
         mflows_rep = self.apply_reproc(self.repr)
         rc_flows = self.flow_regime(self.repr)
-        time_vals = self.step
+        time_vals = misc_funcs.convert_list_to_string(self.step_list)
 
         deck = template.render(
             fuel_path=self.base,
@@ -116,7 +115,6 @@ class create_deck:
 
     def deck_read_write_generator(
             self,
-            step,
             read,
             read_t,
             write,
@@ -127,8 +125,6 @@ class create_deck:
 
         Parameters
         ----------
-        step : float
-            Size of the time step used
         read : str
             Path to file to read, False if no reading
         read_t : float
@@ -384,11 +380,11 @@ if __name__ == '__main__':
     reprocessing = False
     read_file = False
     read_time = False
-    write_file = 'zz_test_write'
+    write_file = 'zzzzz_test_write'
     base_material_file = './ss-data-test/ss-fuel_1380'
     template_name = 'saltproc.msbr.serpent'
     template_path = './templates'
-    time_step = 3
+    time_step = [3]
     list_inventory = ['Xe135']
     identifier = 'test'
     deck_name = 'zzzzz'

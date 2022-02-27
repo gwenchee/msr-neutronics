@@ -29,6 +29,10 @@ cumulative_keff_plotting = True
 # To make always usable, have Serpent run an extra time with "fuel all" inventory
 tot_mass_plotting = False
 
+# Batchwise changes / Alterations to continuous rates frequency
+# 0 means every step, 1 every other step, False means never (all one Serpent input deck)
+batch_step_counter = 0
+
 
 lines = ['-', '--', '-.', ':']
 markers = ['.', ',', 'o', 'v', '^', '8', 's', 'p', '*', 'x', '+']
@@ -37,7 +41,8 @@ overlap = 0.5
 width = 3
 
 path_to_dump_files = 'ss-comparison'
-print('Using old material path')
+print('---------Using old material path')
+print('---------Set n/g to 100')
 base_material_path = './ss-data-test-old/ss-fuel_'
 template_path = './templates'
 template_name = 'saltproc.msbr.serpent'
