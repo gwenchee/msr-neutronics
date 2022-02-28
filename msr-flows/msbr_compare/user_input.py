@@ -9,8 +9,8 @@ linear_generation = False
 cycle_time_decay = False
 linear_isotope = False
 
-cycle_rate = True
-saltproc_cycle_rate = False
+cycle_rate = False
+saltproc_cycle_rate = True
 
 # Separate core piping is WIP
 
