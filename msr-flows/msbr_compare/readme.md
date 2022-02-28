@@ -43,6 +43,7 @@ Renamed SaltProc post-processing script to extract data from hdf5 file into Serp
 - Determine impact of mass imbalance; worst case scenario mass imbalance?
 - Comparison of continuous vs batchwise.
 - Comparison of "decay" protactinium into uranium vs SaltProc approximation.
+- Net time list not implemented in linear approximation approaches.
 
 ## Thoughts:
 - Possibly inlclude type 2 flow in comparison? It is fundementally not very well applied to this problem though.

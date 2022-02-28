@@ -97,7 +97,6 @@ class full_run_serp:
             current_actual_time = step_val + self.start_day
             current_serpent_time = step_val
             if batch_counter >= self.batch_f:
-                print(read_time)
                 cur_deck_maker = serpent_input.create_deck(
                     reprocessing_dict,
                     read_file,
@@ -341,31 +340,55 @@ class full_run_serp:
         reprocessing_dict = cycle_time_decay_build.cycle_time_decay()
         read_file = False
         read_time = 0
-        for each_step in range(self.N):
+        time_list = list()
+        batch_counter = 0
+        file_counter = 0
+        for each_step, step_val in enumerate(self.step_list):
+            time_list.append(step_val)
             write_file = self.output_path + \
-                identifier + str(each_step) + '.wrk'
-            deck_name = self.output_path + identifier + str(each_step)
-            current_actual_time = self.step_size * each_step + self.start_day
-            current_serpent_time = current_actual_time - self.start_day
-            read_time = current_serpent_time
-            cur_deck_maker = serpent_input.create_deck(
-                reprocessing_dict,
-                read_file,
-                read_time,
-                write_file,
-                self.base_mat_file,
-                self.template_name,
-                self.template_path,
-                self.step_size,
-                self.inv_list,
-                identifier,
-                deck_name)
-            deck = cur_deck_maker.build_serpent_deck()
-            run = serpent_input.run_deck(deck_name, deck, write_file)
-            run.run_script()
-            read_file = write_file
-            read_time = current_serpent_time
-
+                identifier + str(file_counter) + '.wrk'
+            deck_name = self.output_path + identifier + str(file_counter)
+            current_actual_time = step_val + self.start_day
+            current_serpent_time = step_val
+            if batch_counter >= self.batch_f:
+                cur_deck_maker = serpent_input.create_deck(
+                    reprocessing_dict,
+                    read_file,
+                    read_time,
+                    write_file,
+                    self.base_mat_file,
+                    self.template_name,
+                    self.template_path,
+                    time_list,
+                    self.inv_list,
+                    identifier,
+                    deck_name)
+                deck = cur_deck_maker.build_serpent_deck()
+                run = serpent_input.run_deck(deck_name, deck, write_file)
+                run.run_script()
+                read_file = write_file
+                read_time = current_serpent_time
+                batch_counter = 0
+                time_list = list()
+                file_counter += 1
+            elif each_step < len(self.step_list) - 1:
+                batch_counter += 1
+            else:
+                cur_deck_maker = serpent_input.create_deck(
+                    reprocessing_dict,
+                    read_file,
+                    read_time,
+                    write_file,
+                    self.base_mat_file,
+                    self.template_name,
+                    self.template_path,
+                    time_list,
+                    self.inv_list,
+                    identifier,
+                    deck_name)
+                deck = cur_deck_maker.build_serpent_deck()
+                run = serpent_input.run_deck(deck_name, deck, write_file)
+                run.run_script()
         return
 
     def cycle_rate(self, identifier='CR'):
@@ -387,31 +410,55 @@ class full_run_serp:
         reprocessing_dict = cycle_rate_build.cycle_rate()
         read_file = False
         read_time = 0
-        for each_step in range(self.N):
+        time_list = list()
+        batch_counter = 0
+        file_counter = 0
+        for each_step, step_val in enumerate(self.step_list):
+            time_list.append(step_val)
             write_file = self.output_path + \
-                identifier + str(each_step) + '.wrk'
-            deck_name = self.output_path + identifier + str(each_step)
-            current_actual_time = self.step_size * each_step + self.start_day
-            current_serpent_time = current_actual_time - self.start_day
-            read_time = current_serpent_time
-            cur_deck_maker = serpent_input.create_deck(
-                reprocessing_dict,
-                read_file,
-                read_time,
-                write_file,
-                self.base_mat_file,
-                self.template_name,
-                self.template_path,
-                self.step_size,
-                self.inv_list,
-                identifier,
-                deck_name)
-            deck = cur_deck_maker.build_serpent_deck()
-            run = serpent_input.run_deck(deck_name, deck, write_file)
-            run.run_script()
-            read_file = write_file
-            read_time = current_serpent_time
-
+                identifier + str(file_counter) + '.wrk'
+            deck_name = self.output_path + identifier + str(file_counter)
+            current_actual_time = step_val + self.start_day
+            current_serpent_time = step_val
+            if batch_counter >= self.batch_f:
+                cur_deck_maker = serpent_input.create_deck(
+                    reprocessing_dict,
+                    read_file,
+                    read_time,
+                    write_file,
+                    self.base_mat_file,
+                    self.template_name,
+                    self.template_path,
+                    time_list,
+                    self.inv_list,
+                    identifier,
+                    deck_name)
+                deck = cur_deck_maker.build_serpent_deck()
+                run = serpent_input.run_deck(deck_name, deck, write_file)
+                run.run_script()
+                read_file = write_file
+                read_time = current_serpent_time
+                batch_counter = 0
+                time_list = list()
+                file_counter += 1
+            elif each_step < len(self.step_list) - 1:
+                batch_counter += 1
+            else:
+                cur_deck_maker = serpent_input.create_deck(
+                    reprocessing_dict,
+                    read_file,
+                    read_time,
+                    write_file,
+                    self.base_mat_file,
+                    self.template_name,
+                    self.template_path,
+                    time_list,
+                    self.inv_list,
+                    identifier,
+                    deck_name)
+                deck = cur_deck_maker.build_serpent_deck()
+                run = serpent_input.run_deck(deck_name, deck, write_file)
+                run.run_script()
         return
 
 
@@ -579,10 +626,11 @@ if __name__ == '__main__':
                 ui.template_path,
                 ui.template_name,
                 ui.start_time,
-                ui.end_time,
+                time_steps,
                 ui.list_inventory,
                 ui.element_flow_list,
-                output_path)
+                output_path,
+                ui.batch_frequency)
             try:
                 builder.cycle_time_decay(identifier=CTD_identifier)
             except Exception as e:
@@ -604,10 +652,11 @@ if __name__ == '__main__':
                 ui.template_path,
                 ui.template_name,
                 ui.start_time,
-                ui.end_time,
+                time_steps,
                 ui.list_inventory,
                 ui.element_flow_list,
-                output_path)
+                output_path,
+                ui.batch_frequency)
             try:
                 builder.cycle_rate(identifier=CR_identifier)
             except Exception as e:
