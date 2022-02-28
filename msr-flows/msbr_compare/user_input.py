@@ -42,7 +42,6 @@ width = 3
 
 path_to_dump_files = 'ss-comparison'
 print('---------Using old material path')
-print('---------Set n/g to 100')
 base_material_path = './ss-data-test-old/ss-fuel_'
 template_path = './templates'
 template_name = 'saltproc.msbr.serpent'
