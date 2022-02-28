@@ -530,31 +530,6 @@ class full_run_serp:
                 deck = cur_deck_maker.build_serpent_deck()
                 run = serpent_input.run_deck(deck_name, deck, write_file)
                 run.run_script()
-#        for each_step in range(self.N):
-#            write_file = self.output_path + \
-#                identifier + str(each_step) + '.wrk'
-#            deck_name = self.output_path + identifier + str(each_step)
-#            current_actual_time = self.step_size * each_step + self.start_day
-#            current_serpent_time = current_actual_time - self.start_day
-#            read_time = current_serpent_time
-#            cur_deck_maker = serpent_input.create_deck(
-#                reprocessing_dict,
-#                read_file,
-#                read_time,
-#                write_file,
-#                self.base_mat_file,
-#                self.template_name,
-#                self.template_path,
-#                self.step_size,
-#                self.inv_list,
-#                identifier,
-#                deck_name)
-#            deck = cur_deck_maker.build_serpent_deck()
-#            run = serpent_input.run_deck(deck_name, deck, write_file)
-#            run.run_script()
-#            read_file = write_file
-#            read_time = current_serpent_time
-
         return
 
 
